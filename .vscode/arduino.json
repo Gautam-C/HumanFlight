@@ -1,0 +1,5 @@
+{
+    "programmer": "AVRISP mkII",
+    "board": "arduino:mbed:nano33ble",
+    "sketch": "humanFlight.ino"
+}
