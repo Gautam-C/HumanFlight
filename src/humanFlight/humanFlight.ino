@@ -22,7 +22,7 @@ float RPM;
 
 unsigned long time;
 
-Servo valveServo;
+Servo valveServo; // butterfly valve servo
 
 const int startPin = 2;
 const int resetPin = 3;
@@ -36,7 +36,6 @@ const int resetPin = 3;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   Wire.begin();
 
@@ -56,6 +55,7 @@ void setup() {
     while (1);
   }
 
+  // HUD initialization
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c)) {
       Serial.println(F("SSD1306 allocation failed"));
       for(;;);
@@ -71,9 +71,10 @@ void setup() {
 
 void loop() {
   if (nunchuk_read()) {
-    throttlePos = nunchuk_joystickY_raw();
-    throttlePos = map(throttlePos, 0, nunchukMax, valveMin, valveMax);
-    valveServo.write(throttlePos);
+    
+    throttlePos = nunchuk_joystickY_raw();  // getting input from the nunchuk
+    throttlePos = map(throttlePos, 0, nunchukMax, valveMin, valveMax);  // convert nunchuk input to servo value
+    valveServo.write(throttlePos);  // write servo value
   }
 
   // stores pressure in pascals
